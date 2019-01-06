@@ -67,7 +67,13 @@ end
 require 'erb'
 require 'yaml'
 
-gem 'sqlite3'
+group :development, :test do
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
+end
 
 group :development do
   gem "rdoc", "~> 4.3"
