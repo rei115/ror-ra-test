@@ -26,7 +26,13 @@
       </td>
     </tr>
   <% end %>
-  <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+  <%
+    style = ""
+    if issue.due_date.present? && issue.due_date - 3 <= Date.today
+      style = "background-color: #f4b642;"
+    end
+  %>
+  <tr style="<%= style %>" id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
     <% query.inline_columns.each do |column| %>
     <%= content_tag('td', column_content(column, issue), :class => column.css_classes) %>

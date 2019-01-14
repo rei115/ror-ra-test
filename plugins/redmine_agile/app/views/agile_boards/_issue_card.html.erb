@@ -1,7 +1,7 @@
 <%
   style = ""
   if issue.due_date.present? && issue.due_date - 3 <= Date.today
-    style = "color: #ff0000"
+    style = "background-color: #f4b642; color: #ff0000"
   end
 %>
 <div style="<%= style %>" class="issue-card hascontextmenu <%= agile_color_class(issue, :color_base => @query.respond_to?(:color_base) && @query.color_base) %> <%= class_for_closed_issue(issue) %>" data-id="<%= issue.id %>" style="<%= agile_user_color(issue.assigned_to, :color_base => @query.respond_to?(:color_base) && @query.color_base) if issue.assigned_to %>">
@@ -9,7 +9,7 @@
       <span class="fields">
          <div class="tooltip">
            <p class="issue-id <%= 'without-tracker' if @query.has_column_name?(:tracker).blank? %>">
-               <strong><%= link_to "#{'#' + issue.id.to_s}", issue_path(issue) %></strong>
+               <strong><%= link_to "#{'#' + issue.id.to_s}", issue_path(issue) %> [ <%= issue.class %> ]</strong>
             </p>
             <span class="tip">
             </span>
@@ -31,7 +31,7 @@
           <p class="issue-id <%= 'without-tracker' if @query.has_column_name?(:tracker).blank? %>">
             <%= check_box_tag("ids[]", issue.id, false, :id => nil, :class => 'checkbox') %>
             <% if @query.has_column_name?(:tracker) %>
-              <strong><%= issue_heading(issue) %></strong>
+              <strong><%= issue_heading(issue) %> [ <%= issue.due_date.present? ? issue.due_date : "nothing" %> <%= Date.today - 3 %> <%= issue.due_date.present? && issue.due_date - 3 <= Date.today %>] </strong>
             <% end %>
             <%= render_issue_card_hours(@query, issue) %>
           </p>

@@ -69,8 +69,11 @@ module AgileBoardsHelper
     current_statuses = query.options[:f_status] || IssueStatus.where(:is_closed => false).pluck(:id).map(&:to_s)
     wp = query.options[:wp] || {}
     status_tags = available_statuses.map do |status|
-      label_tag('', check_box_tag('f_status[]', status.id, current_statuses.include?(status.id.to_s)
-      ) + status.to_s, :class => 'floating')
+      checked = current_statuses.include?(status.id.to_s) || status.to_s == "完了"
+      label_tag('', check_box_tag('f_status[]', status.id, checked) + status.to_s, :class => 'floating')
+
+      # label_tag('', check_box_tag('f_status[]', status.id, current_statuses.include?(status.id.to_s)
+      # ) + status.to_s, :class => 'floating')
     end.join(' ').html_safe
     hidden_field_tag('f[]', 'status_id').html_safe +
       hidden_field_tag('op[status_id]', "=").html_safe +
