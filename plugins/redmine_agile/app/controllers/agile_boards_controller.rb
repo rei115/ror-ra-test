@@ -55,6 +55,7 @@ class AgileBoardsController < ApplicationController
       @board_columns = @query.board_statuses
       status = IssueStatus.where(name: "完了")
       @board_columns << status.first if status.present?
+      @board_columns.uniq!
 
       respond_to do |format|
         format.html { render :template => 'agile_boards/index', :layout => !request.xhr? }

@@ -81,7 +81,7 @@ issue.available_custom_fields[0].custom_values[0].value
     wp = query.options[:wp] || {}
     status_tags = available_statuses.map do |status|
       # 終了扱いを出すならここでIDを追加する
-      checked = current_statuses.include?(status.id.to_s) || status.to_s == "解決"
+      checked = current_statuses.include?(status.id.to_s) || status.to_s == "完了"
       label_tag('', check_box_tag('f_status[]', status.id, checked) + status.to_s, :class => 'floating')
 
       # label_tag('', check_box_tag('f_status[]', status.id, current_statuses.include?(status.id.to_s)
@@ -97,7 +97,7 @@ issue.available_custom_fields[0].custom_values[0].value
     * %REDMINE_APP%/plugins/redmine_agile/app/controllers/agile_board_controller.rb
     * 56行目
 ~~~
-status = IssueStatus.where(name: "終了")
+status = IssueStatus.where(name: "完了")
 @board_columns << status.first if status.present?
 ~~~
 
